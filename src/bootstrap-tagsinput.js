@@ -167,7 +167,11 @@
 
       // If using typeahead, once the tag has been added, clear the typeahead value so it does not stick around in the input.
       if ($('.typeahead, .twitter-typeahead', self.$container).length) {
-        self.$input.typeahead('val', '');
+        if (self.options.typeaheadjs) {
+          self.$input.typeahead('val', '');
+        } else {
+          self.$input.val('');
+        }
       }
 
       if (this.isInit) {
@@ -319,7 +323,7 @@
               }
             }
 
-            // Bloodhound (since 0.11) needs three arguments. 
+            // Bloodhound (since 0.11) needs three arguments.
             // Two of them are callback functions (sync and async) for local and remote data processing
             // see https://github.com/twitter/typeahead.js/blob/master/src/bloodhound/bloodhound.js#L132
             if ($.isFunction(typeahead.source) && typeahead.source.length === 3) {
@@ -655,7 +659,7 @@
       return '';
     }
   }
-  
+
    var entityMap = {
 		"&": "&amp;",
 		"<": "&lt;",
@@ -665,7 +669,7 @@
 		"/": '&#x2F;',
 		"\\": '&#x5C'
 	};
-	
+
 	function escapeString(str){
 		return String(str).replace(/[&<>"'\/\\]/g, function (s) {
 			return entityMap[s];
